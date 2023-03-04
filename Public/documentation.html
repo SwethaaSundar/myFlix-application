@@ -5,13 +5,112 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyFlix</title>
+    <style>
+        table, th, td {
+          border: .5px solid;
+        }
+    </style>
 </head>
 <body>
     <h1>MyFlix Movies</h1>
     <h2>Objective</h2>
     <p>To build the server-side component of a “movies” web application. The web
         application will provide users with access to information about different
-        movies, directors, and genres. Users will be able to sign up, update their
+        movies, directors, and genres.<br> Users will be able to sign up, update their
         personal information, and create a list of their favorite movies.</p>
+    <h2>Endpoint documentation</h2>    
+    <table>
+        <thead>
+        <th>Data that endpoint returns</th>
+        <th>HTTP Method</th>
+        <th>Url</th>
+        <th>Query parameters</th>
+        <th>Request body</th>
+        <th>Response</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Return a list of ALL movies to the user</td>
+            <td><b>GET</b></td>
+            <td>/movies</td>
+            <td></td>
+            <td></td>
+            <td>A JSON object containing a list of ALL movies.</td>
+        </tr>
+        <tr>
+            <td>Return data about a single movie by title to the user</td>
+            <td><b>GET</b></td>
+            <td>/movies/:title</td>
+            <td>/:title</td>
+            <td></td>
+            <td>A JSON object containing a single movie.</td>
+        </tr>
+        <tr>
+            <td>Return data about a genre by name/title</td>
+            <td><b>GET</b></td>
+            <td>/movies/genre/:gName</td>
+            <td>/:gName</td>
+            <td></td>
+            <td>A JSON object containing a specific genre.</td>
+        </tr>
+        <tr>
+            <td>Return data about a director by name</td>
+            <td><b>GET</b></td>
+            <td>/movies/director/:dName</td>
+            <td>/:dName</td>
+            <td></td>
+            <td>A JSON object containing a specific director.</td>
+        </tr>
+        <tr>
+            <td>Allow new users to register</td>
+            <td><b>POST</b></td>
+            <td>/appusers</td>
+            <td></td>
+            <td> { 
+                <br> 
+                 "name": "Joe", <br> 
+                 "favMovies":[] 
+                <br> }
+            </td>
+            <td>A JSON object containing data about the new user.</td>
+        </tr>
+        <tr>
+            <td>Allow users to update their user info</td>
+            <td><b>PUT</b></td>
+            <td>/appusers/:id</td>
+            <td>/:id</td>
+            <td>{ 
+                <br> 
+                 "name": "Swethaa Sundar", <br> 
+                 "favMovies":["Snow White and the 7 Dwarfs", "Moana"] 
+                <br> }</td>
+            <td>A JSON object containing updated info about the user.</td>
+        </tr>
+        <tr>
+            <td>Allow users to add a movie to their list of favorites</td>
+            <td><b>POST</b></td>
+            <td>/appusers/:id/:favMovieTitles</td>
+            <td>/:id/:favMovieTitles</td>
+            <td></td>
+            <td>Text message- Movie-title has been added to the users.</td>
+        </tr>
+        <tr>
+            <td>Allow users to remove a movie from their list of favorites</td>
+            <td><b>DELETE</b></td>
+            <td>/appusers/:id/:favMovieTitles</td>
+            <td>/:id/:favMovieTitles</td>
+            <td></td>
+            <td>Text message- Movie-title has been removed to the users.</td>
+        </tr>
+        <tr>
+            <td>Allow existing users to deregister </td>
+            <td><b>DELETE</b></td>
+            <td>/appusers/:id</td>
+            <td>/:id</td>
+            <td></td>
+            <td>Text message- User-name has been removed to the user list.</td>
+        </tr>
+        </tbody>
+    </table>
 </body> 
 </html>
