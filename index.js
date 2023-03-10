@@ -8,6 +8,7 @@ path = require('path');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
+// const Genre = mongoose.model("Genre", genreSchema);
 const Movies = Models.Movie;
 const Users = Models.User;
 
@@ -60,23 +61,23 @@ app.get('/movies/:title', (req, res) => {
       res.status(500).send('Error: ' + err);
     });
 });
-// GET movies by genre-----------
+// GET movies by genre
 app.get('/movies/genre/:gName', (req, res) => {
  Movies.findOne({ 'genre.gName': req.params.gName })
     .then((movie) => {
-      console.log(movie.Title);
-      // res.json(movie.Genre);
+      // console.log(movie.genre);
+      res.json(movie.genre);
     })
     .catch((err) => {
       console.error(err);
       res.status(500).send('Error: ' + err);
     });
 });
-// GET movies by director------------
+// GET movies by director
 app.get('/movies/director/:dName', (req, res) => {
-  Movies.findOne({ 'Director.DName' : req.params.dName })
+  Movies.findOne({ 'director.dName' : req.params.dName })
     .then((movie) => {
-      res.json(movie);
+      res.json(movie.director);
     })
     .catch((err) => {
       console.error(err);
@@ -85,40 +86,6 @@ app.get('/movies/director/:dName', (req, res) => {
 });
 
 // POST Method
-app.post('/movies', (req, res) => {
-  Users.findOne({ Title: req.body.title })
-    .then((movie) => {
-      if (movie) {
-        return res.status(400).send(req.body.title + 'already exists');
-      } else {
-        Movies
-          .create({
-            title : req.body.title,
-            description : req.body.description,
-            imgUrl : req.body.imgUrl,
-            year: req.body.year,
-          genre: {
-              gName : req.body.gName,
-               gDescription: req.body.gDescription,
-        },
-          director: {
-            dName: req.body.dName,
-            dBio: req.body.dBio,
-            dBirthday: req.body.dYear
-    }
-          })
-          .then((movie) =>{res.status(201).json(movie) })
-        .catch((error) => {
-          console.error(error);
-          res.status(500).send('Error: ' + error);
-        })
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send('Error: ' + error);
-    });
-});
 // Create new user 
 app.post('/users', (req, res) => {
   Users.findOne({ Name: req.body.name })
@@ -207,7 +174,6 @@ app.delete('/users/:Username', (req, res) => {
       res.status(500).send('Error: ' + err);
     });
 });
-
 // Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);

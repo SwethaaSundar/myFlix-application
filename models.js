@@ -1,18 +1,25 @@
 const  { default: mongoose } = require("mongoose");
 
+
+let genreSchema = mongoose.Schema({
+    gName : {type: String},
+    gDescription: {type: String}, 
+});
+let directorSchema = mongoose.Schema({
+    dName: {type: String},
+    dBio: {type: String},
+    dYear: Date
+});
 let movieSchema = mongoose.Schema({
     title : {type: String, required: true},
     description : {type: String, required: true},
     imgUrl : String,
     year: Date,
     genre: {
-        gName : String,
-        gDescription: String,
+        type: genreSchema,
     },
     director: {
-        dName: String,
-        dBio: String,
-        dYear: Date
+        type: directorSchema,
     }
 });
 
