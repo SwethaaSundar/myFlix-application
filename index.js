@@ -62,9 +62,10 @@ app.get('/movies/:title', (req, res) => {
 });
 // GET movies by genre-----------
 app.get('/movies/genre/:gName', (req, res) => {
-Movies.findOne({ 'Genre.GName': req.params.gName })
+ Movies.findOne({ 'genre.gName': req.params.gName })
     .then((movie) => {
-      res.json(movie);
+      console.log(movie.Title);
+      // res.json(movie.Genre);
     })
     .catch((err) => {
       console.error(err);
@@ -84,6 +85,40 @@ app.get('/movies/director/:dName', (req, res) => {
 });
 
 // POST Method
+app.post('/movies', (req, res) => {
+  Users.findOne({ Title: req.body.title })
+    .then((movie) => {
+      if (movie) {
+        return res.status(400).send(req.body.title + 'already exists');
+      } else {
+        Movies
+          .create({
+            title : req.body.title,
+            description : req.body.description,
+            imgUrl : req.body.imgUrl,
+            year: req.body.year,
+          genre: {
+              gName : req.body.gName,
+               gDescription: req.body.gDescription,
+        },
+          director: {
+            dName: req.body.dName,
+            dBio: req.body.dBio,
+            dBirthday: req.body.dYear
+    }
+          })
+          .then((movie) =>{res.status(201).json(movie) })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send('Error: ' + error);
+        })
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+});
 // Create new user 
 app.post('/users', (req, res) => {
   Users.findOne({ Name: req.body.name })
