@@ -1,0 +1,2 @@
+{"_id":1,"name":"Swethaa","favMovies":[{"$oid":"64084f57940c8f3325472a7c"},{"$oid":"64085bb436973e1e4c4947cc"},{"$oid":"640857d636973e1e4c4947c7"}]}
+{"_id":2,"name":"Benni","favMovies":[{"$oid":"64085c2136973e1e4c4947cd"}] }

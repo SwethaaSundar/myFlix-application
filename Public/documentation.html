@@ -64,7 +64,7 @@
         <tr>
             <td>Allow new users to register</td>
             <td><b>POST</b></td>
-            <td>/appusers</td>
+            <td>/users</td>
             <td></td>
             <td> { 
                 <br> 
@@ -77,8 +77,8 @@
         <tr>
             <td>Allow users to update their user info</td>
             <td><b>PUT</b></td>
-            <td>/appusers/:id</td>
-            <td>/:id</td>
+            <td>/users/:Username</td>
+            <td>/:Username</td>
             <td>{ 
                 <br> 
                  "name": "Swethaa Sundar", <br> 
@@ -89,23 +89,23 @@
         <tr>
             <td>Allow users to add a movie to their list of favorites</td>
             <td><b>POST</b></td>
-            <td>/appusers/:id/:favMovieTitles</td>
-            <td>/:id/:favMovieTitles</td>
+            <td>'/users/:Username/movies/:Movieid'</td>
+            <td>/:Username/:Movieid</td>
             <td></td>
             <td>Text message- Movie-title has been added to the users.</td>
         </tr>
         <tr>
             <td>Allow users to remove a movie from their list of favorites</td>
             <td><b>DELETE</b></td>
-            <td>/appusers/:id/:favMovieTitles</td>
-            <td>/:id/:favMovieTitles</td>
+            <td>/users/:Username/movies/:Movieid</td>
+            <td>/:Username/:Movieid</td>
             <td></td>
             <td>Text message- Movie-title has been removed to the users.</td>
         </tr>
         <tr>
             <td>Allow existing users to deregister </td>
             <td><b>DELETE</b></td>
-            <td>/appusers/:id</td>
+            <td>/users/:Username</td>
             <td>/:id</td>
             <td></td>
             <td>Text message- User-name has been removed to the user list.</td>
