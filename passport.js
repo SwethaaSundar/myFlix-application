@@ -7,25 +7,44 @@ let Users = Models.User,
   JWTStrategy = passportJWT.Strategy,
   ExtractJWT = passportJWT.ExtractJwt;
 
+  exports.findUser = function findUser(username, callback){
+    Users.findOne({Username: username}, function(err, userObj){
+        if(err){
+            return callback(err);
+        } else if (userObj){
+            return callback(null,userObj);
+        } else {
+            return callback();
+        }
+    });
+}
+
 passport.use(new LocalStrategy({
   usernameField: 'Username',
   passwordField: 'Password'
 }, (username, password, callback) => {
   console.log(username + '  ' + password);
-  Users.findOne({ Username: username }, (error, user) => {
-    console.log(username);
-    if (error) {
-      console.log(error);
-      return callback(error);
-    }
+  // Users.findOne({ Username: username }, (error, user) => {
+  //   if (error) {
+  //     console.log(error);
+  //     return callback(error);
+  //   }
 
-    if (!user) {
-      console.log('incorrect username');
-      return callback(null, false, {message: 'Incorrect username or password.'});
-    }
-
+  //   if (!user) {
+  //     console.log('incorrect username');
+  //     return callback(null, false, {message: 'Incorrect username or password.'});
+  //   }
+  //   console.log('finished');
+  //   return callback(null, user);
+  // });
+  Users.findOne({ Username: username })
+  .then((user) => {
     console.log('finished');
     return callback(null, user);
+  })
+  .catch((err) => {
+    console.log('incorrect username');
+    return callback(null, false, {message: 'Incorrect username or password.'});
   });
 }));
 

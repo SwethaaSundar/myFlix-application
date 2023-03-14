@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // to import auth.js file... the (app) argument is to ensure Express is available in the auth.js file as well
-let auth = require('./auth')(app);
+require('./auth')(app);
 //to require passport module and import passport.js file
 const passport = require('passport');
 require('./passport');
@@ -123,9 +123,9 @@ app.post('/users/:Username/movies/:Movieid', passport.authenticate('jwt', { sess
    Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
-       $push: { favMovies: req.params.Movieid }
+       $push: { FavMovies: req.params.Movieid }
     },
-    { new: true, select: "Username FavMovies" }) // This line makes sure that the updated document is returned
+    { new: true, select: "Username Password Email FavMovies" }) // This line makes sure that the updated document is returned
     .then((users)=>{
       res.status(200).json(users)
     }
@@ -140,11 +140,12 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
   Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
-       $set: { name: req.body.name }
+       $set: { Username: req.body.Username }
     },
-    { new: true, select: "Username" }) // This line makes sure that the updated document is returned
-    .then((users)=>{
-      res.status(200).json(users)
+    { new: true, select: "Username Password Email FavMovies" }) // This line makes sure that the updated document is returned
+    .then((user)=>{
+      console.log(user);
+      res.status(200).json(user)
     }
     ).catch(
       err => console.error("Something went wrong"),
@@ -152,14 +153,14 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 });
 
 // DELETE Method
-// Deleting the movies from the favorite list----------
+// Deleting the movies from the favorite list
 app.delete('/users/:Username/movies/:Movieid', passport.authenticate('jwt', { session: false }), (req,res)=>{
   Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
-       $pull: { favMovies: req.params.Movieid }
+       $pull: { FavMovies: req.params.Movieid }
     },
-    { new: true, select: "Username FavMovies" })
+    { new: true, select: "Username Password Email FavMovies" })
     .then((users)=>{
       res.status(200).json(users)
     }
