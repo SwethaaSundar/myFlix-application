@@ -7,6 +7,7 @@ uuid = require('uuid')
 path = require('path');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
+const { check, validationResult } = require('express-validator');
 
 // const Genre = mongoose.model("Genre", genreSchema);
 const Movies = Models.Movie;
@@ -17,7 +18,21 @@ console.log('success connection');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// cors
+const cors = require('cors');
+// app.use(cors());
+let allowedOrigins = ['http://localhost:8080'];
 
+app.use(cors({
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+      let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
+      return callback(new Error(message ), false);
+    }
+    return callback(null, true);
+  }
+}));
 // to import auth.js file... the (app) argument is to ensure Express is available in the auth.js file as well
 require('./auth')(app);
 //to require passport module and import passport.js file
@@ -46,7 +61,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req,res)=>
 });  
 
 // GET all users
-app.get('/users', (req,res)=>{
+app.get('/users', passport.authenticate('jwt', { session: false }), (req,res)=>{
   Users.find()
   .then((user) => {
     res.status(200).json(user);
@@ -93,7 +108,23 @@ app.get('/movies/director/:dName', passport.authenticate('jwt', { session: false
 
 // POST Method
 // Create new user 
-app.post('/users', (req, res) => {
+app.post('/users', 
+[
+   //validation logic goes here
+   check('Username', 'Username is required').isLength({min: 4}),
+   check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+   check('Password', 'Password is required').not().isEmpty(),
+   check('Password', 'Password is required').isLength({min: 8}),
+   check('Email', 'Email does not appear to be valid').isEmail()
+],
+(req, res) => {
+  // check the validation object for errors
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -102,7 +133,8 @@ app.post('/users', (req, res) => {
         Users
           .create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            // Password: req.body.Password,
+            Password:  hashedPassword,
             Email: req.body.Email,
             FavMovies: req.body.FavMovies
           })
@@ -189,6 +221,10 @@ app.use((err, req, res, next) => {
   res.status(404).send('Something broke!');
 });
 // Listen 
-app.listen(8080,()=>{
-  console.log('My first Node test server is running on Port 8080');
-})
+// app.listen(8080,()=>{
+//   console.log('My first Node test server is running on Port 8080');
+// })
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
+});
