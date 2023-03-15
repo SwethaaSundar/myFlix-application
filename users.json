@@ -1,2 +1,4 @@
-{"_id":1,"name":"Swethaa","favMovies":[{"$oid":"64084f57940c8f3325472a7c"},{"$oid":"64085bb436973e1e4c4947cc"},{"$oid":"640857d636973e1e4c4947c7"}]}
-{"_id":2,"name":"Benni","favMovies":[{"$oid":"64085c2136973e1e4c4947cd"}] }
+{"_id":{"$oid":"640f752805a5de3e45b327b0"},"Username":"Swethaa","Password":"swethaa123","Email":"swethaacf@gmail.com","FavMovies":[{"$oid":"6408598a36973e1e4c4947c9"},{"$oid":"640857d636973e1e4c4947c7"}]}
+{"_id":{"$oid":"640f767c05a5de3e45b327b2"},"Username":"Benni","Password":"Benni987","Email":"benni_cf@gmail.com","FavMovies":[{"$oid":"6408598a36973e1e4c4947c9"},{"$oid":"640857d636973e1e4c4947c7"},{"$oid":"64085bb436973e1e4c4947cc"}]}
+{"_id":{"$oid":"640f78e6a15e8d28840ccb8c"},"Username":"JohnCF","Password":"John123","Email":"johncf@gmail.com","FavMovies":[],"__v":0}
+{"_id":{"$oid":"640f8073c00240f7aa980ce2"},"Username":"Lisa","Password":"Lisa123","Email":"lisacf@gmail.com","FavMovies":[],"__v":0}
