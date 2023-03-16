@@ -45,7 +45,7 @@ require('./passport');
 
 let accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flag: 'a'})
 app.use(morgan('common', { stream: accessLogStream }));
-app.use('/documentation',express.static('Public'));
+app.use(express.static('Public'));
 
 // GET Method
 // GET request (Read from server)- Home page
