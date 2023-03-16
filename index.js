@@ -50,7 +50,8 @@ app.use('/documentation',express.static('Public'));
 // GET Method
 // GET request (Read from server)- Home page
 app.get('/', (req, res)=>{
-  res.send('Welcome to the Disney movies list!\n');
+  // res.send('Welcome to the Disney movies list!\n');
+  res.redirect('/documentation.html');
 });
 // GET all movies
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req,res)=>{
