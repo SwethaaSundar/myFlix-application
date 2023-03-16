@@ -26,8 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // cors
 const cors = require('cors');
 // app.use(cors());
-let allowedOrigins = ['http://localhost:8080'];
-
+let allowedOrigins = ['http://localhost:8080','https://myflixdb-0sx9.onrender.com','https://myflixdb-0sx9.onrender.com/login'];
 app.use(cors({
   origin: (origin, callback) => {
     if(!origin) return callback(null, true);
