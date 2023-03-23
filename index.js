@@ -27,7 +27,6 @@ const cors = require("cors");
 // app.use(cors());
 let allowedOrigins = [
   "http://localhost:8080",
-  "http://localhost:1234",
   "https://myflixdb-0sx9.onrender.com",
   "https://myflixdb-0sx9.onrender.com/login",
 ];
