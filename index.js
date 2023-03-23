@@ -27,7 +27,6 @@ const cors = require("cors");
 // app.use(cors());
 let allowedOrigins = [
   "http://localhost:8080",
-  "http://localhost:1234",
   "https://myflixdb-0sx9.onrender.com",
   "https://myflixdb-0sx9.onrender.com/login",
 ];
@@ -65,21 +64,17 @@ app.get("/", (req, res) => {
   res.redirect("/documentation.html");
 });
 // GET all movies
-app.get(
-  "/movies",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Movies.find()
-      .then((movie) => {
-        res.status(200).json(movie);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
-
+// app.get('/movies', passport.authenticate('jwt', { session: false }), (req,res)=>{
+app.get("/movies", (req, res) => {
+  Movies.find()
+    .then((movie) => {
+      res.status(200).json(movie);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 // GET all users
 app.get(
   "/users",
