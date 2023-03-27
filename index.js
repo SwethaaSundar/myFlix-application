@@ -65,17 +65,21 @@ app.get("/", (req, res) => {
   res.redirect("/documentation.html");
 });
 // GET all movies
-// app.get('/movies', passport.authenticate('jwt', { session: false }), (req,res)=>{
-app.get("/movies", (req, res) => {
-  Movies.find()
-    .then((movie) => {
-      res.status(200).json(movie);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    // app.get("/movies", (req, res) => {
+    Movies.find()
+      .then((movie) => {
+        res.status(200).json(movie);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 // GET all users
 app.get(
   "/users",
