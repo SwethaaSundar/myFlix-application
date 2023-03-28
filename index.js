@@ -30,6 +30,7 @@ let allowedOrigins = [
   "http://localhost:1234",
   "https://myflixdb-0sx9.onrender.com",
   "https://myflixdb-0sx9.onrender.com/login",
+  "https://disneyprincess.fandom.com", //Img url
 ];
 app.use(
   cors({
