@@ -216,12 +216,28 @@ app.post(
 //updating the user name
 app.put(
   "/users/:Username",
+  [
+    //validation
+    check("Username", "Username is required").isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username contains non alphanumeric characters - not allowed."
+    ).isAlphanumeric(),
+    check("Password", "Password is required").not().isEmpty(),
+    check("Email", "Email does not appear to be valid").isEmail(),
+  ],
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    let hashedPassword = Users.hashPassword(req.body.Password);
+
     Users.findOneAndUpdate(
       { Username: req.params.Username },
       {
-        $set: { Username: req.body.Username },
+        $set: {
+          Username: req.body.Username,
+          Password: hashedPassword,
+          Email: req.body.Email,
+        },
       },
       { new: true, select: "Username Password Email FavMovies" }
     ) // This line makes sure that the updated document is returned
